@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本人第一次做tarjan，这类水题花了2:30小时才调好，一是因为刚转c++不习惯，总会把==打成=，找了好久的错。然后接着一直40分，是发现，now=next（now）打在了括号的外面，真的是蒟蒻。 好了进入正题了。这题我觉得是tarjan缩点然后再将不再一个强联通分量中的点重新连边，然后直接spfa遍历（按理来说floyd直接各个强联通分量3方爆扫好像也是可以的）。这是我的解法。之前还有很多d">
+<meta name="keywords" content="Tarjan,图论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="题解 洛谷 P3387 【【模板】缩点】">
+<meta property="og:url" content="http://yoursite.com/2019/07/12/luogu-3387/index.html">
+<meta property="og:site_name" content="Dilemma的博客">
+<meta property="og:description" content="本人第一次做tarjan，这类水题花了2:30小时才调好，一是因为刚转c++不习惯，总会把==打成=，找了好久的错。然后接着一直40分，是发现，now=next（now）打在了括号的外面，真的是蒟蒻。 好了进入正题了。这题我觉得是tarjan缩点然后再将不再一个强联通分量中的点重新连边，然后直接spfa遍历（按理来说floyd直接各个强联通分量3方爆扫好像也是可以的）。这是我的解法。之前还有很多d">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-12T11:30:24.434Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="题解 洛谷 P3387 【【模板】缩点】">
+<meta name="twitter:description" content="本人第一次做tarjan，这类水题花了2:30小时才调好，一是因为刚转c++不习惯，总会把==打成=，找了好久的错。然后接着一直40分，是发现，now=next（now）打在了括号的外面，真的是蒟蒻。 好了进入正题了。这题我觉得是tarjan缩点然后再将不再一个强联通分量中的点重新连边，然后直接spfa遍历（按理来说floyd直接各个强联通分量3方爆扫好像也是可以的）。这是我的解法。之前还有很多d">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/12/luogu-3387/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>题解 洛谷 P3387 【【模板】缩点】 | Dilemma的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dilemma的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/12/luogu-3387/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CMZ">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dilemma的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">题解 洛谷 P3387 【【模板】缩点】
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-12 19:22:05 / 修改时间：19:30:24" itemprop="dateCreated datePublished" datetime="2019-07-12T19:22:05+08:00">2019-07-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tarjan/" itemprop="url" rel="index"><span itemprop="name">Tarjan</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">14k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">12 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本人第一次做tarjan，这类水题花了2:30小时才调好，一是因为刚转c++不习惯，总会把==打成=，找了好久的错。然后接着一直40分，是发现，now=next（now）打在了括号的外面，真的是蒟蒻。</p>
+<p>好了进入正题了。这题我觉得是tarjan缩点然后再将不再一个强联通分量中的点重新连边，然后直接spfa遍历（按理来说floyd直接各个强联通分量3方爆扫好像也是可以的）。这是我的解法。之前还有很多dalao的解法，好像很多用的都是dp，但是我没有想到。。。。</p>
+<p>{详细解释请见代码中的注释}</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN (1000001)  &#123;我觉得这个一个好习惯，因为这可以防止因为手贱而导致的mle或空间开小了&#125;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INF (0x7f7f7f7f)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> max(a,b) (((a)&gt;(b)) ? (a):(b))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> min(a,b) (((a)&gt;(b)) ? (b):(a))&#123;手打的max，min要比cmath中的会快&#125;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> q[MAXN],dis[MAXN];</span><br><span class="line"><span class="keyword">int</span> get[MAXN];</span><br><span class="line"><span class="keyword">int</span> top,size,len,k,dc,maxx;</span><br><span class="line"><span class="keyword">int</span> a[MAXN],head[MAXN],next[MAXN],color[MAXN],dfn[MAXN],low[MAXN],<span class="built_in">stack</span>[MAXN],f[MAXN],x1[MAXN],y1[MAXN],rd[MAXN];</span><br><span class="line"><span class="keyword">bool</span> visit[MAXN],instack[MAXN],vis[MAXN];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y )</span></span>&#123;</span><br><span class="line">    ++top;</span><br><span class="line">    get[top]=y;</span><br><span class="line">    next[top]=head[x];</span><br><span class="line">    head[x]=top;      &#123;邻接表不用多说&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPFA</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(vis,<span class="number">0</span>,<span class="keyword">sizeof</span>(vis));</span><br><span class="line">    <span class="built_in">memset</span>(dis,<span class="number">0</span>,<span class="keyword">sizeof</span>(dis));</span><br><span class="line">    <span class="keyword">int</span> h=<span class="number">0</span>,t=<span class="number">1</span>;     &#123;刚开始将起点进队开始更新&#125;</span><br><span class="line">    q[<span class="number">1</span>]=x; dis[x]=f[x];&#123;因为是点的遍历，所以刚开始要把自己到自己的权值设成点权，不然后面就会少一个起点的值&#125;</span><br><span class="line">    <span class="keyword">while</span> (h&lt;t)&#123;</span><br><span class="line">        ++h;</span><br><span class="line">        <span class="keyword">int</span> x=q[h];</span><br><span class="line">        vis[x]=<span class="number">0</span>;   &#123;因为已经弹出所以标记为不在队列中&#125;</span><br><span class="line">        <span class="keyword">int</span> now=head[x];</span><br><span class="line">        <span class="keyword">while</span> (now&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> g=get[now];</span><br><span class="line">            <span class="keyword">if</span> (dis[x]+f[g]&gt;dis[g]) &#123;</span><br><span class="line">                dis[g]=dis[x]+f[g];</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">not</span> vis[g]) &#123;  &#123;如果不在队列中那么进队&#125;</span><br><span class="line">                    t++;</span><br><span class="line">                    q[t]=g;</span><br><span class="line">                    vis[g]=<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            now=next[now];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=dc;++i)</span><br><span class="line">    maxx=max(maxx,dis[i]);   &#123;用当前几点到所有点的距离更新答案maxx值&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">tarjan</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    ++k; <span class="keyword">int</span> u=x;</span><br><span class="line">    dfn[x]=low[x]=k; visit[x]=<span class="literal">true</span>; instack[x]=<span class="literal">true</span>;++top; <span class="built_in">stack</span>[top]=x;</span><br><span class="line">    <span class="keyword">int</span> now=head[x];</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">int</span> v=get[now];</span><br><span class="line">        <span class="keyword">if</span> (visit[v]==<span class="number">0</span>) &#123;</span><br><span class="line">            tarjan(v);    &#123;如果目标点不在栈中那么继续往下搜&#125;</span><br><span class="line">            low[u]=min(low[u],low[v]);    &#123;用你儿子的low值去更新你的low值，因为你的low值必定要小于等于你儿子的low值&#125;</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">if</span> (instack[v]) low[u]=min(dfn[v],low[u]);&#123;如果目标点已经在栈中了，那么你就可以直接用你儿子的dfn值也就是时间戳来更新你的low值&#125;</span><br><span class="line">        now=next[now];&#123;邻接表便利&#125;</span><br><span class="line">    &#125; <span class="keyword">while</span>(now&gt;<span class="number">0</span>); </span><br><span class="line">    <span class="keyword">if</span> (dfn[x]==low[x]) &#123;   &#123;如果满足条件，就说明找到了一个强联通分量，那么就开始弹栈，直到弹到当前这一个点为止&#125;</span><br><span class="line">        ++dc;</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">stack</span>[top+<span class="number">1</span>]!=x)&#123;   &#123;因为当前这一个点也要弹出，所以是top+<span class="number">1</span>，不然的话就会少弹一个&#125;</span><br><span class="line">            color[<span class="built_in">stack</span>[top]]=dc;&#123;染色&#125;</span><br><span class="line">            f[dc]+=a[<span class="built_in">stack</span>[top]];&#123;统计每一个颜色的点的总权值&#125;</span><br><span class="line">            instack[<span class="built_in">stack</span>[top]]=<span class="number">0</span>;&#123;弹栈&#125;</span><br><span class="line">            top--;        &#123;将栈顶指针<span class="number">-1</span>&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,m;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;m);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i)&#123;</span><br><span class="line">        <span class="keyword">int</span> x,y;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;x1[i],&amp;y1[i]);   </span><br><span class="line">        add(x1[i],y1[i]);</span><br><span class="line">    &#125;    </span><br><span class="line">    top=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)<span class="keyword">if</span> (<span class="keyword">not</span> visit[i]) tarjan(i);</span><br><span class="line">    <span class="built_in">memset</span>(head,<span class="number">0</span>,<span class="keyword">sizeof</span>(head));</span><br><span class="line">    <span class="built_in">memset</span>(next,<span class="number">0</span>,<span class="keyword">sizeof</span>(next));</span><br><span class="line">    <span class="built_in">memset</span>(get,<span class="number">0</span>,<span class="keyword">sizeof</span>(get));</span><br><span class="line">    top=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i) </span><br><span class="line">        <span class="keyword">if</span> (color[x1[i]]!=color[y1[i]]) &#123;    &#123;如果这条边的两个点不在同一个强联通分量中，那么连边&#125;</span><br><span class="line">            add(color[x1[i]],color[y1[i]]);  &#123;连&#125;</span><br><span class="line">            rd[color[y1[i]]]++;     &#123;将目标点的rd+<span class="number">1</span>，以便后面处理&#125;</span><br><span class="line">            &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=dc;++i)&#123;</span><br><span class="line">    <span class="keyword">if</span> （rd[i]==<span class="number">0</span>）  &#123;因为rd不为<span class="number">0</span>的点肯定会被别的点走到，所以只需要便利rd为<span class="number">0</span>的边，可以节省时间&#125;</span><br><span class="line">        SPFA(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,maxx);  &#123;最后输出便利到的最大值&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tarjan/" rel="tag"># Tarjan</a>
+          
+            <a href="/tags/图论/" rel="tag"># 图论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">CMZ</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2320993191@qq.com" title="E-Mail &rarr; mailto:2320993191@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hehezhou.github.io" title="https://hehezhou.github.io" rel="noopener" target="_blank">hehezhou</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CMZ</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">4k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">3 分钟</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
