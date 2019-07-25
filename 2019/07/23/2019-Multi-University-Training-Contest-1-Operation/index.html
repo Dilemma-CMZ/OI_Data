@@ -97,14 +97,14 @@
 
 
   <meta name="description" content="题目链接 Operation  Description有一个序列，2种操作   查询$l,r$中，任取几个数使得异或和最大.输出这个max 在序列末尾插入一个新的数字，并使$n=n+1.$     要求强制在线">
-<meta name="keywords" content="贪心,线性基">
+<meta name="keywords" content="线性基,贪心">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2019 Multi-University Training Contest 1  Operation">
 <meta property="og:url" content="https://Dilemma-CMZ.github.io/2019/07/23/2019-Multi-University-Training-Contest-1-Operation/index.html">
 <meta property="og:site_name" content="Dilemma的博客">
 <meta property="og:description" content="题目链接 Operation  Description有一个序列，2种操作   查询$l,r$中，任取几个数使得异或和最大.输出这个max 在序列末尾插入一个新的数字，并使$n=n+1.$     要求强制在线">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-23T03:10:27.712Z">
+<meta property="og:updated_time" content="2019-07-25T07:38:40.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019 Multi-University Training Contest 1  Operation">
 <meta name="twitter:description" content="题目链接 Operation  Description有一个序列，2种操作   查询$l,r$中，任取几个数使得异或和最大.输出这个max 在序列末尾插入一个新的数字，并使$n=n+1.$     要求强制在线">
@@ -366,12 +366,24 @@
                 
               
 
-              <time title="创建时间：2019-07-23 10:29:54 / 修改时间：11:10:27" itemprop="dateCreated datePublished" datetime="2019-07-23T10:29:54+08:00">2019-07-23</time>
+              <time title="创建时间：2019-07-23 10:29:54" itemprop="dateCreated datePublished" datetime="2019-07-23T10:29:54+08:00">2019-07-23</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-25 15:38:40" itemprop="dateModified" datetime="2019-07-25T15:38:40+08:00">2019-07-25</time>
               
             
           </span>
@@ -446,7 +458,7 @@
 <a id="more"></a>
 
 <hr>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先这道题目显然会想到线性基。<br>暴力的做法可以用数据结构维护区间线性基，比如分块$\mathcal O(n\log^2n)$，线段树$\mathcal O(n\log^3n)$或者$ST$表$\mathcal O(n\log^3n)$，考场上我们全部都用过一遍，但肯定过不了.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>首先这道题目显然会想到线性基。<br>暴力的做法可以用数据结构维护区间线性基，比如分块$\mathcal O(n\log^2n)$，线段树$\mathcal O(n\log^3n)$或者$ST$表$\mathcal O(n\log^3n)$，考场上我们全部都用过一遍，但肯定过不了.</p>
 <p>然后我们就可以思考一下，是否有什么可以优化的办法<br>我们可以考虑贪心，对于每一个位置的前缀线性基，我们在$add$的时候，让最高位的数字的位置尽量偏右，这样就不需要维护区间的线性基了，毕竟线性基合并就已经两个$log$了.</p>
 <p>至于正确性应该显然吧，因为我们优先考虑高位，其次再考虑位置，这样肯定保证了最高位的最优决策性。</p>
 <hr>
@@ -473,9 +485,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/贪心/" rel="tag"># 贪心</a>
-          
             <a href="/tags/线性基/" rel="tag"># 线性基</a>
+          
+            <a href="/tags/贪心/" rel="tag"># 贪心</a>
           
         </div>
       
@@ -577,7 +589,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -651,7 +663,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -746,7 +762,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Description"><span class="nav-number">1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题解"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Description"><span class="nav-number">1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a></li></ol></div>
             
 
           </div>
@@ -783,7 +799,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">38k</span>
+    <span title="站点总字数">40k</span>
   
 
   
@@ -792,7 +808,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">35 分钟</span>
+    <span title="站点阅读时长">37 分钟</span>
   
 </div>
 
