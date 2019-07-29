@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Dilemma的博客">
 <meta property="og:description" content="题目链接 Coefficient  Description求$f(x)=\frac{b}{c+e^{ax+d}}$在满足$ax+d=0$的点$x_0$处泰勒展开的$n$次项系数.多组数据,每组数据一个$n$,多个$a,b,c,d$.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-29T10:13:26.088Z">
+<meta property="og:updated_time" content="2019-07-29T10:18:31.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019 Multi-University Training Contest 2 Coefficient">
 <meta name="twitter:description" content="题目链接 Coefficient  Description求$f(x)=\frac{b}{c+e^{ax+d}}$在满足$ax+d=0$的点$x_0$处泰勒展开的$n$次项系数.多组数据,每组数据一个$n$,多个$a,b,c,d$.">
@@ -366,7 +366,7 @@
                 
               
 
-              <time title="创建时间：2019-07-29 18:06:08 / 修改时间：18:13:26" itemprop="dateCreated datePublished" datetime="2019-07-29T18:06:08+08:00">2019-07-29</time>
+              <time title="创建时间：2019-07-29 18:06:08 / 修改时间：18:18:31" itemprop="dateCreated datePublished" datetime="2019-07-29T18:06:08+08:00">2019-07-29</time>
             
 
             
@@ -441,13 +441,13 @@
 <hr>
 <h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>首先，容易知道$d$没用。考虑我们只需计算$[x^n]\frac 1{c+e^{ax}}$</p>
 <p>若$n$为$0$,则为$\frac 1{c+1}$</p>
-<p>否则$[x^n]\frac{1}{c+e^{ax}}=[x^n]\frac{1}{c+e^{ax}}=\frac{1}{n!c}[x^n]\sum_{k=0}^{\infin}{-1\choose k}e^{akx}c^{-k}=\frac1{n!c}\sum_{k=0}^{\infin}(-1)^k(ak)^nc^{-k}$</p>
-<p>$=\frac {a^n}{n!c}\sum_{k=0}^{\infin}k^n(-c)^{-k}$.</p>
-<p>定理1:$\sum_{k=0}^{\infin}k^{\underline n}(-c)^{-k}=(-1)^n\frac{n!c}{(c+1)^{n+1}}$.</p>
+<p>否则$[x^n]\frac{1}{c+e^{ax}}=[x^n]\frac{1}{c+e^{ax}}=\frac{1}{n!c}[x^n]\sum_{k=0}^{\infty}{-1\choose k}e^{akx}c^{-k}=\frac1{n!c}\sum_{k=0}^{\infty}(-1)^k(ak)^nc^{-k}$</p>
+<p>$=\frac {a^n}{n!c}\sum_{k=0}^{\infty}k^n(-c)^{-k}$.</p>
+<p>定理1:$\sum_{k=0}^{\infty}k^{\underline n}(-c)^{-k}=(-1)^n\frac{n!c}{(c+1)^{n+1}}$.</p>
 <p>证明:首先,当$n=0$时,结论显然成立.</p>
-<p>对于$n\ge0$,若其对于$n$成立,则记$f_n(c)=\sum_{k=0}^{\infin}k^{\underline n}(-c)^{-k}=(-1)^n\frac{n!c}{(c+1)^{n+1}}$.</p>
-<p>则有$cf_{n+1}(c)=\sum_{k=1}^{\infin}k^{\underline{n+1}}(-1)^kc^{-k+1}=-\sum_{k=0}^{\infin}(k+1)^{\underline{n+1}}(-c)^{-k}$</p>
-<p>$(1+c)f_{n+1}(c)=\sum_{k=0}^{\infin}(k^{\underline {n+1}}-(k+1)^{\underline {n+1}})(-c)^{-k}=-(n+1)\sum_{k=0}^{\infin}k^{\underline n}(-c)^{-k}=-(n+1)f_n(c)$</p>
+<p>对于$n\ge0$,若其对于$n$成立,则记$f_n(c)=\sum_{k=0}^{\infty}k^{\underline n}(-c)^{-k}=(-1)^n\frac{n!c}{(c+1)^{n+1}}$.</p>
+<p>则有$cf_{n+1}(c)=\sum_{k=1}^{\infty}k^{\underline{n+1}}(-1)^kc^{-k+1}=-\sum_{k=0}^{\infty}(k+1)^{\underline{n+1}}(-c)^{-k}$</p>
+<p>$(1+c)f_{n+1}(c)=\sum_{k=0}^{\infty}(k^{\underline {n+1}}-(k+1)^{\underline {n+1}})(-c)^{-k}=-(n+1)\sum_{k=0}^{\infty}k^{\underline n}(-c)^{-k}=-(n+1)f_n(c)$</p>
 <p>所以$f_{n+1}(c)=-\frac{n+1}{1+c}f_n(c)=(-1)^{n+1}\frac{(n+1)!c}{(c+1)^{n+2}}$</p>
 <p>我们将$k^n$拆分成$\sum_{i=0}^nS(n,i)k^{\underline i}$.</p>
 <p>这样,我们便可得到要求的是$a^n\frac{P(c)}{(c+1)^n}$,上面的多项式可以通过一次FFT求出.</p>
